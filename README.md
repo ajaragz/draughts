@@ -1,1 +1,1 @@
-# solution.Java 
+# Unit Tests for the Draughts game
