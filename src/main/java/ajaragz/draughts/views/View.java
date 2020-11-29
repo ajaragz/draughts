@@ -65,18 +65,18 @@ public class View extends SubView implements InteractorControllersVisitor {
     }
 
     private Error processCurrentString(PlayController playController) {
-        Error error = null;
-        if (this.isCanceledFormat())
+        if (this.isCanceledFormat()) {
             playController.cancel();
-        else if (!this.isMoveFormat()) {
-            error = Error.BAD_FORMAT;
-            this.writeError();
-        } else {
-            error = playController.move(this.getCoordinates());
-            new GameView().write(playController);
-            if (error == null && playController.isBlocked())
-                this.writeLost();
+            return null;
         }
+        if (!this.isMoveFormat()) {
+            this.writeError();
+            return Error.BAD_FORMAT;
+        }
+        Error error = playController.move(this.getCoordinates());
+        new GameView().write(playController);
+        if (error == null && playController.isBlocked())
+            this.writeLost();
         return error;
 
     }
