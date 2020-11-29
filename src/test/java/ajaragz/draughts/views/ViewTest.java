@@ -1,7 +1,10 @@
 package ajaragz.draughts.views;
 
+import ajaragz.draughts.controllers.PlayController;
 import ajaragz.draughts.controllers.ResumeController;
 import ajaragz.draughts.controllers.StartController;
+import ajaragz.draughts.models.Color;
+import ajaragz.draughts.models.Coordinate;
 import ajaragz.draughts.utils.Console;
 import ajaragz.draughts.utils.YesNoDialog;
 import org.junit.Before;
@@ -12,8 +15,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ViewTest {
 
@@ -32,6 +34,9 @@ public class ViewTest {
     @Mock
     YesNoDialog yesNoDialog;
 
+    @Mock
+    PlayController playController;
+
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
@@ -47,6 +52,12 @@ public class ViewTest {
     public void testInteractWithResumeControllerThenAcceptsView() {
         view.interact(resumeController);
         verify(resumeController).accept(view);
+    }
+
+    @Test
+    public void testInteractWithPlayControllerThenAcceptsView() {
+        view.interact(playController);
+        verify(playController).accept(view);
     }
 
     @Test
@@ -68,5 +79,38 @@ public class ViewTest {
         when(yesNoDialog.read(any())).thenReturn(false);
         view.visit(resumeController);
         verify(resumeController).next();
+    }
+
+    @Test
+    public void testWhenCancelOperationThenCancel() {
+        when(playController.getColor()).thenReturn(Color.WHITE);
+        when(console.readString(anyString())).thenReturn("-1");
+        view.visit(playController);
+        verify(playController).cancel();
+    }
+
+    @Test
+    public void testWhenFormatIncorrectThenWriteBadFormat3TimesAndCancel() {
+        when(playController.getColor()).thenReturn(Color.WHITE);
+        when(console.readString(anyString()))
+                .thenReturn("abcd")
+                .thenReturn("1234")
+                .thenReturn("11.a")
+                .thenReturn("-1");
+        view.visit(playController);
+        verify(console, times(3)).writeln("Error!!! Formato incorrecto");
+        verify(playController).cancel();
+    }
+
+
+    @Test
+    public void testGameBlockedThenLost() {
+        when(playController.getColor()).thenReturn(Color.WHITE);
+        when(console.readString(anyString()))
+                .thenReturn("11.22");
+        when(playController.move(any(Coordinate.class),any(Coordinate.class))).thenReturn(null);
+        when(playController.isBlocked()).thenReturn(true);
+        view.visit(playController);
+        verify(console).writeln("Derrota!!! No puedes mover tus fichas!!!");
     }
 }
