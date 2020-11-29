@@ -29,12 +29,9 @@ public class View extends SubView implements InteractorControllersVisitor {
     private YesNoDialog yesNoDialog;
     public String string;
 
-    private PlayView playView;
-
     public View(){
         super();
         this.yesNoDialog = new YesNoDialog();
-        this.playView = new PlayView();
     }
 
     public void interact(InteractorController controller) {
