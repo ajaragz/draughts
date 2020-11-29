@@ -8,6 +8,8 @@ import ajaragz.draughts.controllers.InteractorControllersVisitor;
 
 public class View extends SubView implements InteractorControllersVisitor {
 
+    private static final String TITTLE = "Draughts";
+
     private PlayView playView;
     private ResumeView resumeView;
 
@@ -25,7 +27,7 @@ public class View extends SubView implements InteractorControllersVisitor {
     @Override
     public void visit(StartController startController) {
         assert startController != null;
-        this.console.writeln(StartView.TITTLE);
+        this.console.writeln(View.TITTLE);
         new GameView().write(startController);
         startController.start();
     }
