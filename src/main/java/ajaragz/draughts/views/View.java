@@ -15,13 +15,11 @@ public class View extends SubView implements InteractorControllersVisitor {
     private YesNoDialog yesNoDialog;
 
     private PlayView playView;
-    private ResumeView resumeView;
 
     public View(){
         super();
         this.yesNoDialog = new YesNoDialog();
         this.playView = new PlayView();
-        this.resumeView = new ResumeView();
     }
 
     public void interact(InteractorController controller) {
