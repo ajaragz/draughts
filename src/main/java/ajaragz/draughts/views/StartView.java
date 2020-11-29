@@ -4,7 +4,7 @@ import ajaragz.draughts.controllers.StartController;
 
 class StartView extends SubView {
 
-    private static final String TITTLE = "Draughts";
+    public static final String TITTLE = "Draughts";
 
     StartView(){
         super();

@@ -6,14 +6,13 @@ import ajaragz.draughts.controllers.StartController;
 import ajaragz.draughts.controllers.InteractorController;
 import ajaragz.draughts.controllers.InteractorControllersVisitor;
 
-public class View implements InteractorControllersVisitor {
+public class View extends SubView implements InteractorControllersVisitor {
 
-    private StartView startView;
     private PlayView playView;
     private ResumeView resumeView;
 
     public View(){
-        this.startView = new StartView();
+        super();
         this.playView = new PlayView();
         this.resumeView = new ResumeView();
     }
@@ -26,7 +25,9 @@ public class View implements InteractorControllersVisitor {
     @Override
     public void visit(StartController startController) {
         assert startController != null;
-        this.startView.interact(startController);
+        this.console.writeln(StartView.TITTLE);
+        new GameView().write(startController);
+        startController.start();
     }
 
     @Override
