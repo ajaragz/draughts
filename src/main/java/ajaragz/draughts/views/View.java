@@ -10,7 +10,7 @@ import ajaragz.draughts.utils.YesNoDialog;
 public class View extends SubView implements InteractorControllersVisitor {
 
     private static final String TITTLE = "Draughts";
-    private static final String MESSAGE = "¿Queréis jugar otra";
+    private static final String RESUME_MESSAGE = "¿Queréis jugar otra";
 
     private YesNoDialog yesNoDialog;
 
@@ -44,7 +44,7 @@ public class View extends SubView implements InteractorControllersVisitor {
     @Override
     public void visit(ResumeController resumeController) {
         assert resumeController != null;
-        if (this.yesNoDialog.read(View.MESSAGE))
+        if (this.yesNoDialog.read(View.RESUME_MESSAGE))
             resumeController.reset();
         else
             resumeController.next();
