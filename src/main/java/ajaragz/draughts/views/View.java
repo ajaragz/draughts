@@ -5,16 +5,21 @@ import ajaragz.draughts.controllers.ResumeController;
 import ajaragz.draughts.controllers.StartController;
 import ajaragz.draughts.controllers.InteractorController;
 import ajaragz.draughts.controllers.InteractorControllersVisitor;
+import ajaragz.draughts.utils.YesNoDialog;
 
 public class View extends SubView implements InteractorControllersVisitor {
 
     private static final String TITTLE = "Draughts";
+    private static final String MESSAGE = "¿Queréis jugar otra";
+
+    private YesNoDialog yesNoDialog;
 
     private PlayView playView;
     private ResumeView resumeView;
 
     public View(){
         super();
+        this.yesNoDialog = new YesNoDialog();
         this.playView = new PlayView();
         this.resumeView = new ResumeView();
     }
@@ -41,7 +46,10 @@ public class View extends SubView implements InteractorControllersVisitor {
     @Override
     public void visit(ResumeController resumeController) {
         assert resumeController != null;
-        this.resumeView.interact(resumeController);
+        if (this.yesNoDialog.read(View.MESSAGE))
+            resumeController.reset();
+        else
+            resumeController.next();
     }
 
 }
