@@ -1,13 +1,13 @@
 package ajaragz.draughts.views;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import ajaragz.draughts.controllers.PlayController;
 import ajaragz.draughts.models.Color;
 import ajaragz.draughts.models.Coordinate;
 import ajaragz.draughts.models.Error;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 class PlayView extends SubView {
     
