@@ -50,22 +50,9 @@ public class View extends SubView implements InteractorControllersVisitor {
     @Override
     public void visit(PlayController playController) {
         assert playController != null;
-        Error error;
         do {
-            error = null;
             this.string = this.read(playController.getColor());
-            if (this.isCanceledFormat())
-                playController.cancel();
-            else if (!this.isMoveFormat()) {
-                error = Error.BAD_FORMAT;
-                this.writeError();
-            } else {
-                error = playController.move(this.getCoordinates());
-                new GameView().write(playController);
-                if (error == null && playController.isBlocked())
-                    this.writeLost();
-            }
-        } while (error != null);
+        } while (this.processCurrentString(playController) != null);
     }
 
     @Override
@@ -75,6 +62,23 @@ public class View extends SubView implements InteractorControllersVisitor {
             resumeController.reset();
         else
             resumeController.next();
+    }
+
+    private Error processCurrentString(PlayController playController) {
+        Error error = null;
+        if (this.isCanceledFormat())
+            playController.cancel();
+        else if (!this.isMoveFormat()) {
+            error = Error.BAD_FORMAT;
+            this.writeError();
+        } else {
+            error = playController.move(this.getCoordinates());
+            new GameView().write(playController);
+            if (error == null && playController.isBlocked())
+                this.writeLost();
+        }
+        return error;
+
     }
 
     private String read(Color color) {
