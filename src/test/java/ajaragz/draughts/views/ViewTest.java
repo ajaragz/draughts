@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
-public class StartViewTest {
+public class ViewTest {
 
     @Mock
     StartController startController;
@@ -20,7 +20,7 @@ public class StartViewTest {
     Console console;
 
     @InjectMocks
-    StartView startView;
+    View view;
 
     @Before
     public void before() {
@@ -28,8 +28,13 @@ public class StartViewTest {
     }
 
     @Test
+    public void testInteractWithStartControllerThenAcceptsView() {
+        view.interact(startController);
+        verify(startController).accept(view);
+    }
+    @Test
     public void testViewStartsController() {
-        startView.interact(startController);
+        view.visit(startController);
         verify(console).writeln(anyString());
         verify(startController).start();
     }
